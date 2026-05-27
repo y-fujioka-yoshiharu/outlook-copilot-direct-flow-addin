@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot Flow Mail Assistant</title>
+  <link rel="stylesheet" href="./taskpane.css" />
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script defer src="./taskpane.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <div>
+        <h1>Copilot Flow Mail Assistant</h1>
+        <p class="sub">Outlook Add-in から Flow へ直接 HTTP リクエストします。</p>
+      </div>
+      <button id="refreshBtn" class="secondary">再読込</button>
+    </header>
+
+    <section class="card">
+      <div class="section-title-row">
+        <h2>現在のメール</h2>
+        <span id="mailStatus" class="pill">未取得</span>
+      </div>
+      <dl class="mail-meta">
+        <div><dt>件名</dt><dd id="subject">-</dd></div>
+        <div><dt>送信者</dt><dd id="from">-</dd></div>
+        <div><dt>itemId</dt><dd id="itemId" class="mono">-</dd></div>
+        <div><dt>restId</dt><dd id="restId" class="mono">-</dd></div>
+      </dl>
+    </section>
+
+    <section class="card">
+      <div class="section-title-row">
+        <h2>設定</h2>
+        <button id="saveSettingsBtn" class="secondary">保存</button>
+      </div>
+      <label>
+        <span>エージェント名</span>
+        <input id="agentName" type="text" placeholder="MailTriageAgent" />
+      </label>
+      <label>
+        <span>処理モード</span>
+        <select id="mode">
+          <option value="summarize">要約</option>
+          <option value="classify">分類</option>
+          <option value="reply">返信案作成</option>
+          <option value="extract">項目抽出</option>
+        </select>
+      </label>
+      <label>
+        <span>Flow URL</span>
+        <input id="flowUrl" type="url" placeholder="https://prod-xx.logic.azure.com/..." />
+      </label>
+      <label>
+        <span>認証ヘッダー名（任意）</span>
+        <input id="authHeaderName" type="text" placeholder="x-functions-key" />
+      </label>
+      <label>
+        <span>認証ヘッダー値（任意）</span>
+        <input id="authHeaderValue" type="text" placeholder="******" />
+      </label>
+      <label class="checkbox">
+        <input id="includeBody" type="checkbox" />
+        <span>本文も一緒に送る（任意）</span>
+      </label>
+    </section>
+
+    <section class="card">
+      <div class="section-title-row">
+        <h2>実行</h2>
+        <button id="runBtn">Flow へ送信</button>
+      </div>
+      <pre id="requestPreview" class="preview">ここに送信ペイロードのプレビューが表示されます。</pre>
+    </section>
+
+    <section class="card">
+      <div class="section-title-row">
+        <h2>結果</h2>
+        <button id="copyBtn" class="secondary">コピー</button>
+      </div>
+      <div id="result" class="result">まだ実行していません。</div>
+    </section>
+  </main>
+</body>
+</html>
